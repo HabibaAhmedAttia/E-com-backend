@@ -1,9 +1,11 @@
 package task.mentorship.application.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,17 +32,21 @@ public class UserController {
 		this.authService = authService;
 		this.jwt = jwt;
 	}
+    @CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    	Map<String, String> response = new HashMap<>();
     	if (userService.emailExists(request.getEmail())) {
+    		response.put("message", "Email already in use");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                 .body("Email already in use");
+                                 .body(response);
         }
     	userService.registerUser(request);
-        return ResponseEntity.ok("User registered successfully");
+        response.put("message", "User registered successfully");
+        return ResponseEntity.ok(response);
     }
 	
-	
+    @CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/login")
 	public ResponseEntity<?> login(
 	        @RequestHeader("email") String email, 
@@ -52,15 +58,6 @@ public class UserController {
 	        return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
 	    }
 	}
-	
-//    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-//        try {
-//            String token = authService.authenticate(request.getEmail(), request.getPassword());
-//            return ResponseEntity.ok(Map.of("token", token));
-//        } catch (CustomException e) {
-//            return ResponseEntity.status(401).body(Map.of("error", e.getMessage()));
-//        }
-//    }
 	
 	
 	@PutMapping("/users/update")
