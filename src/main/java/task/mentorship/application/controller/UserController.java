@@ -36,7 +36,6 @@ public class UserController {
 		this.authService = authService;
 		this.jwt = jwt;
 	}
-    @CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
     	Map<String, String> response = new HashMap<>();
@@ -50,7 +49,6 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 	
-    @CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/login")
 	public ResponseEntity<?> login(
 	        @RequestHeader("email") String email, 
