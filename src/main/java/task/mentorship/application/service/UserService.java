@@ -2,6 +2,7 @@ package task.mentorship.application.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 
 import task.mentorship.application.exception.*;
@@ -14,6 +15,8 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final RoleRepository roleRepository;
+	@Value("${app.admin.email}")
+    private String adminEmail;
 	
 
 	
@@ -43,7 +46,7 @@ public class UserService {
 
         user.getRoles().add(clientRole);
 
-        if ("admin@gmail.com".equalsIgnoreCase(user.getEmail())) {
+        if (adminEmail.equalsIgnoreCase(user.getEmail())) {
             Role adminRole = roleRepository.findByName(Role.RoleName.ADMIN)
                     .orElseThrow(() -> new CustomException("Role ADMIN not found"));
             user.getRoles().add(adminRole);

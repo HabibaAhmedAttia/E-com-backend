@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
 
 import task.mentorship.application.security.*;
 import task.mentorship.application.entity.*;
@@ -20,11 +21,14 @@ import task.mentorship.application.dto.*;
 import task.mentorship.application.service.*;
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins="${app.frontend.origin}")
 public class UserController {
     private final UserService userService;
     private final AuthService authService;
     private final JwtTokenProvider jwt;
-
+    
+    @Value("${app.frontend.origin}")
+    private String frontendOrigin;
 
     public UserController(UserService userService, AuthService authService, JwtTokenProvider jwt) {
 		super();
