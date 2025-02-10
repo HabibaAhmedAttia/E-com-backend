@@ -18,6 +18,10 @@ public class Role {
         return name.name();
     }
 
+    public void setName(RoleName name) {
+        this.name = name;
+    }
+
     public enum RoleName {
         CLIENT, ADMIN
     }
