@@ -47,6 +47,8 @@ public class ProductRequest {
 	public void setImage(MultipartFile image) {
 		this.image = image;
 	}
+
+	
     
     
 }

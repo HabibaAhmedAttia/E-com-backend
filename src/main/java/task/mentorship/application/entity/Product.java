@@ -19,8 +19,10 @@ public class Product {
 
     private Double price;
 
+    
     @Lob
     private byte[] image;
+
 
     private String description;
 
@@ -41,6 +43,17 @@ public class Product {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
 
 	public String getName() {
 		return name;
@@ -66,13 +79,7 @@ public class Product {
 		this.price = price;
 	}
 
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
+	
 
 	public String getDescription() {
 		return description;
