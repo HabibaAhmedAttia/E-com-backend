@@ -3,10 +3,12 @@ package task.mentorship.application.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import jakarta.persistence.EntityNotFoundException;
+import task.mentorship.application.dto.PaginationRequest;
 import task.mentorship.application.dto.ProductRequest;
 import task.mentorship.application.dto.UpdateProductRequest;
 import task.mentorship.application.entity.Category;
@@ -68,9 +70,11 @@ public class ProductService {
     }
 
     
-    public List<Product> listProducts(int offset, int pageSize) {
+    public Page<Product> listProducts(int offset, int pageSize) {
         Pageable pageable = PageRequest.of(offset, pageSize, Sort.by(Sort.Direction.ASC, "id"));
-        return productRepository.findAll(pageable).getContent();
+        return productRepository.findAll(pageable);
     }
+    
+   
     
 }

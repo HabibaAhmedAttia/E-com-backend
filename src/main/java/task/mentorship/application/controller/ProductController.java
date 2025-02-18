@@ -1,6 +1,7 @@
 package task.mentorship.application.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,9 +27,10 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("/add-product")
-    public ResponseEntity<String> createProduct(@ModelAttribute ProductRequest productRequest) throws IOException {
+    public ResponseEntity<Product> createProduct(@ModelAttribute ProductRequest productRequest) throws IOException {
         Product product = productService.createProduct(productRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body("product added successfully");
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
     @DeleteMapping("/delete-product/{id}")
@@ -38,14 +40,14 @@ public class ProductController {
     }
 	
     @PutMapping("/update-product")
-    public ResponseEntity<String> updateProduct(@Validated @RequestBody UpdateProductRequest request) {
+    public ResponseEntity<Product> updateProduct(@Validated @RequestBody UpdateProductRequest request) {
         Product updatedProduct = productService.updateProduct(request);
-        return ResponseEntity.ok("product updated successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(updatedProduct);
     }
 	
     @PostMapping("/list-products")
-    public ResponseEntity<List<Product>> listProducts(@Validated @RequestBody PaginationRequest paginationRequest) {
-        List<Product> products = productService.listProducts(
+    public ResponseEntity<Page<Product>> listProducts(@Validated @RequestBody PaginationRequest paginationRequest) {
+        Page<Product> products = productService.listProducts(
                 paginationRequest.getOffset(),
                 paginationRequest.getPageSize()
         );
